@@ -1,6 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from app.database.db_core import Database
 from fastapi.middleware.cors import CORSMiddleware
+# from app.services.email_service import send_order_confirmation_email
+from app.services.telegram_service import send_telegram_order_alert
 
 app = FastAPI()
 
@@ -25,3 +27,11 @@ def read_database():
     db = Database()
     response = db.execute_query()
     return response
+
+@app.post("/place-order")
+async def place_order(request: Request):
+    data = await request.json()
+    print("Order received:", data)
+    send_telegram_order_alert(data)
+    # send_order_confirmation_email(data)
+    return {"message": "Order placed successfully"}

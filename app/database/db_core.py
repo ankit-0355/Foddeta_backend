@@ -15,7 +15,7 @@ class Database:
     
     def execute_query(self):
         response = (
-            supabase.table("Foodeta")
+            supabase.from_("foodeta")
             .select("*")
             .execute()
         )
