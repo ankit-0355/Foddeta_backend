@@ -15,4 +15,4 @@ EXPOSE 8080
 
 # Command to run FastAPI
 # Use the PORT environment variable provided by Cloud Run
-CMD ["sh", "-c", "uvicorn app.app:app --host 0.0.0.0 --port ${PORT:-8080}"]
+CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8080"]
