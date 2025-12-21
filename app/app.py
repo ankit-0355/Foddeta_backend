@@ -9,6 +9,8 @@ app = FastAPI()
 
 origins = [
         "http://localhost:4200",  # frontend running on localhost
+        "https://foodeta-ui-1030483456536.northamerica-northeast2.run.app/",
+        "https://foodeta-ui-1030483456536.northamerica-northeast2.run.app",
         r"^https:\/\/foodeta.*\.run.app\/?$"  # deployed frontend URL
     ]
 
