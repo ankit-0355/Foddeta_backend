@@ -21,3 +21,12 @@ class Database:
         )
         data_received = response.data
         return data_received
+    
+    def insert_data(self,data):
+        # print("Inserting data:", data)
+        response = (
+            supabase.from_("user_details")
+            .insert(data)
+            .execute()
+        )
+        return response.data
