@@ -13,20 +13,48 @@ class Database:
     def __init__(self):
         self.client = supabase.supabase_url
     
-    def execute_query(self):
-        response = (
-            supabase.from_("foodeta")
-            .select("*")
-            .execute()
-        )
+    def fetch_data(self,table_name, columns,filter=None):
+
+        query = supabase.table(table_name).select(columns)
+        if filter:
+            query = query.eq(filter["column"], filter["value"])
+        try:    
+            response = query.execute()
+        except Exception as e:
+            print("Error executing query:", e)
+            return []
         data_received = response.data
         return data_received
     
-    def insert_data(self,data):
+    def insert_data(self,data,table_name):
         # print("Inserting data:", data)
         response = (
-            supabase.from_("user_details")
+            supabase.table(table_name)
             .insert(data)
             .execute()
         )
         return response.data
+    
+    def update_data(self,table_name, data, filter=None):
+        query = supabase.table(table_name).update(data)
+
+        if(filter):
+            query.eq(filter["column"],filter["value"])
+        try:
+            res = query.execute()
+        except Exception as e:
+            print("Error executing query:", e)
+        
+        return res
+
+    def upsert_data(self,table_name, data, filter=None):
+        query = supabase.table(table_name).upsert(data)
+
+        if(filter):
+            query.eq(filter["column"],filter["value"])
+        try:
+            res = query.execute()
+        except Exception as e:
+            print("Error executing query:", e)
+        
+        return res
